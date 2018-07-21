@@ -95,8 +95,9 @@ int main(){
         cout << "Error: accept\n";
         }else{
             char nickname[MAX_NICK_LENGTH];
-            if(recv(sockfd_accept, nickname, sizeof(nickname), 0) == -1){
-                cout << "Error: nickname lost while connecting\n";
+            int recvres = recv(sockfd_accept, nickname, sizeof(nickname), 0);
+            if(!recvres || recvres == -1){
+                cout << "Error: an attempt to connect was made\n";
                 close(sockfd_accept);
                 continue;
             }
@@ -120,8 +121,8 @@ int main(){
     for(int i = 0; i < socks->size(); ++i)
         close((*socks)[i]);
     
-    delete socks;
-    close(sockfd);
-    delete state;
+    // delete socks;
+    // close(sockfd);
+    // delete state;
     return 0;
 }
